@@ -29,19 +29,14 @@ const employeeTypeDef = gql`
     avatar: String
   }
 
-  input loginEmployeeInput {
-    email: String!
-    password: String!
-  }
-
   extend type Query {
     getAllEmployees: [Employee!]
-    getEmployeeLeaves(id: ID!): [Leave!]
+    getEmployeeLeaves(id: ID!): Employee
   }
 
   extend type Mutation {
     registerEmployee(input: createEmployeeInput!): loginOutputType!
-    loginEmployee(input: loginEmployeeInput!): loginOutputType!
+    loginEmployee(input: loginInput!): loginOutputType!
     applyLeave(date: String!, id: ID!): Leave
     removeEmployee(id: ID!): Boolean!
   }

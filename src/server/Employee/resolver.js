@@ -3,10 +3,10 @@ import bcrypt from "bcryptjs";
 
 const QueryResolvers = {
   async getAllEmployees(_parent, _args, { Employee }) {
-    return await Employee.find({}).exec(0);
+    return await Employee.find({}).exec();
   },
   async getEmployeeLeaves(_parent, { id }, { Employee }) {
-    return await Employee.findById(id, { leaves: 1 }).exec();
+    return await Employee.findById(id).exec();
   },
 };
 
@@ -25,7 +25,7 @@ const MutationResolvers = {
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);
 
-      const time_now = new Date().toString();
+      const time_now = new Date();
       const newEmp = await Employee.create({
         ...userData,
         password: passwordHash,

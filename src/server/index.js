@@ -24,14 +24,14 @@ const apolloServer = new ApolloServer({
   async context({ req, res }) {
     await connectMongoDB();
     // const token = req.headers["authorization"];
-    // let authUser = null;
+    const authUser = { role: "HR", uid: "614b327898e90795c750c944" };
     // if (token) {
     //   authUser = verifyToken(token);
     // }
     return {
       req,
       res,
-      // authUser,
+      authUser,
       Employee,
       Hr,
     };

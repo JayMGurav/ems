@@ -11,6 +11,8 @@ const initialTypeDef = gql`
     REJECTED
   }
 
+  union MeResult = Employee | Hr
+
   type Leave {
     date: String!
     status: LeaveStatus!
@@ -19,8 +21,15 @@ const initialTypeDef = gql`
   type loginOutputType {
     token: String
   }
+
+  input loginInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
     _: String
+    me: MeResult
   }
   type Mutation {
     _: String

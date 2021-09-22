@@ -20,6 +20,7 @@ export function createJWT(user, time_now) {
   const payload = {
     sub: user.id,
     aud: user.id,
+    uid: user.id,
     email: user.email,
     iat: Number(new Date(time_now)),
     role: user.role,
