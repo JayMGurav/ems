@@ -4,6 +4,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/server/*": ["server/*"],
+      "@/configs/*": ["configs/*"],
       "@/gqlClient/*": ["gqlClient/*"],
       "@/styles/*": ["styles/*"],
       "@/utils/*": ["utils/*"],

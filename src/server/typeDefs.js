@@ -5,6 +5,20 @@ import employeeTypeDef from "./Employee/typeDefs";
 import hrTypeDef from "./Hr/typeDefs";
 
 const initialTypeDef = gql`
+  enum LeaveStatus {
+    PENDING
+    APPROVED
+    REJECTED
+  }
+
+  type Leave {
+    date: String!
+    status: LeaveStatus!
+  }
+
+  type loginOutputType {
+    token: String
+  }
   type Query {
     _: String
   }

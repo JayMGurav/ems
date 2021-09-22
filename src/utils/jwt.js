@@ -1,3 +1,4 @@
+import { rolePermissions } from "@/configs/roleConfigs";
 import jwt from "jsonwebtoken";
 
 export function verifyToken(token) {
@@ -15,8 +16,14 @@ export function verifyToken(token) {
   } else return undefined;
 }
 
-export function createJWTFromPayload(payload) {
-  return jwt.sign(payload, process.env.ENCRYPTION_SECRET, {
-    // expiresIn: "7d",
-  });
+export function createJWT(user, time_now) {
+  const payload = {
+    sub: user.id,
+    aud: user.id,
+    email: user.email,
+    iat: Number(new Date(time_now)),
+    role: user.role,
+    permissions: user.permissions,
+  };
+  return jwt.sign(payload, process.env.ENCRYPTION_SECRET);
 }
