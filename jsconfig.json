@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/server/*": ["server/*"],
+      "@/gqlClient/*": ["gqlClient/*"],
+      "@/styles/*": ["styles/*"],
+      "@/utils/*": ["utils/*"],
+      "@/lib/*": ["lib/*"]
+    }
+  }
+}

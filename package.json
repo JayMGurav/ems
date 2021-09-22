@@ -9,6 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@graphql-tools/merge": "^8.1.2",
+    "@graphql-tools/schema": "^8.2.0",
+    "apollo-server-micro": "^3.3.0",
+    "bcryptjs": "^2.4.3",
+    "graphql": "^15.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "micro": "^9.3.4",
+    "micro-cors": "^0.1.1",
+    "mongoose": "^6.0.7",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
