@@ -30,6 +30,7 @@ const initialTypeDef = gql`
   type Query {
     _: String
     me: MeResult
+    logout: Boolean
   }
   type Mutation {
     _: String

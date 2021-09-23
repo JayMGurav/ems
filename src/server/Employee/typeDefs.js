@@ -10,7 +10,7 @@ const employeeTypeDef = gql`
     address: String
     avatar: String
     salary: Float
-    role: String!
+    roles: [String!]
     permissions: [String!]!
     availableLeaves: Int!
     totalLeaves: Int!
@@ -31,14 +31,14 @@ const employeeTypeDef = gql`
 
   extend type Query {
     getAllEmployees: [Employee!]
-    getEmployeeLeaves(id: ID!): Employee
+    # getEmployeeLeaves(id: ID!): Employee
   }
 
   extend type Mutation {
-    registerEmployee(input: createEmployeeInput!): loginOutputType!
-    loginEmployee(input: loginInput!): loginOutputType!
-    applyLeave(date: String!, id: ID!): Leave
+    registerEmployee(input: createEmployeeInput!): Employee
     removeEmployee(id: ID!): Boolean!
+    loginEmployee(input: loginInput!): Employee
+    applyLeave(date: String!, id: ID!): Leave
   }
 `;
 

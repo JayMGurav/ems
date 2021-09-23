@@ -1,30 +1,27 @@
-import { rolePermissions } from "@/configs/roleConfigs";
 import jwt from "jsonwebtoken";
 
 export function verifyToken(token) {
   if (token) {
-    const decodedData = jwt.verify(
-      token,
-      process.env.ENCRYPTION_SECRET,
-      function (err, decodedToken) {
-        if (err) throw new Error("Error decoding JWT" + err.message);
-        return decodedToken;
-        s;
-      }
-    );
-    return decodedData;
+    try {
+      const decodedData = jwt.verify(token, process.env.ENCRYPTION_SECRET);
+      return decodedData;
+    } catch (error) {
+      throw new Error(decodedData);
+    }
   } else return undefined;
 }
 
 export function createJWT(user, time_now) {
   const payload = {
+    data: {
+      roles: user.roles,
+      email: user.email,
+      uid: user.id,
+      permissions: user.permissions,
+    },
     sub: user.id,
     aud: user.id,
-    uid: user.id,
-    email: user.email,
     iat: Number(new Date(time_now)),
-    role: user.role,
-    permissions: user.permissions,
   };
-  return jwt.sign(payload, process.env.ENCRYPTION_SECRET);
+  return jwt.sign(payload, process.env.ENCRYPTION_SECRET, { expiresIn: "8h" });
 }

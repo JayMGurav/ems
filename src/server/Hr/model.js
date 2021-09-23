@@ -1,4 +1,4 @@
-import { HrRole, rolePermissions } from "@/configs/roleConfigs";
+import { EmployeeRole, HrRole, rolePermissions } from "@/configs/roleConfigs";
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
@@ -13,9 +13,9 @@ const schema = new mongoose.Schema(
       type: String,
       required: [true, "password is required field"],
     },
-    role: {
-      type: String,
-      default: "HR",
+    roles: {
+      type: [String],
+      default: [HrRole],
     },
     permissions: [{ type: String }],
     lastLoginAt: String,

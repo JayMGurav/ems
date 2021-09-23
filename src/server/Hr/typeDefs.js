@@ -6,7 +6,7 @@ const hrTypeDef = gql`
     fullname: String!
     email: String!
     lastLoginAt: String!
-    role: String!
+    roles: [String!]
     permissions: [String!]!
   }
 
@@ -17,14 +17,12 @@ const hrTypeDef = gql`
   }
 
   extend type Query {
-    # getAllEmployees: [Employee!]
-    # getEmployeeLeaves(id: ID!): [Leave!]
     getAllHrs: [Hr!]
   }
 
   extend type Mutation {
-    registerHR(input: createHrInput!): loginOutputType!
-    loginHR(input: loginInput!): loginOutputType!
+    registerHR(input: createHrInput!): Hr!
+    loginHR(input: loginInput!): Hr!
     removeHr(id: ID!): Boolean!
   }
 `;

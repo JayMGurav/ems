@@ -1,27 +1,36 @@
+import { setAuthTokenCookie } from "@/utils/authCookies";
 import { createJWT } from "@/utils/jwt";
 import bcrypt from "bcryptjs";
 
 const QueryResolvers = {
+  /**
+   *
+   * Get all Hr data
+   * @returns Hr
+   * @Role None
+   * @Permission None
+   */
   async getAllHrs(_parent, _args, { Hr }) {
     return await Hr.find({}).exec();
   },
-  // async getAllEmployees(_parent, _args, { Employee }) {
-  //   return await Employee.find({}).exec();
-  // },
-  // async getEmployeeLeaves(_parent, { id }, { Employee }) {
-  //   return await Employee.findById(id, { leaves: 1 }).exec();
-  // },
 };
 
 const MutationResolvers = {
-  async registerHR(_parent, { input }, { Hr }) {
+  /**
+   *
+   * Create Hr
+   * @returns Hr
+   * @Role None
+   * @Permission None
+   */
+  async registerHR(_parent, { input }, { Hr, res }) {
     try {
       const existingHr = await Hr.findOne({
         email: input.email,
       }).exec();
 
       if (Boolean(existingHr)) {
-        return new Error(`Employee with ${input.email} already exist!!`);
+        return new Error(`Hr with ${input.email} already exist!, Please login`);
       }
 
       const { password, ...userData } = input;
@@ -36,7 +45,8 @@ const MutationResolvers = {
       });
       if (newHr) {
         const jwtToken = createJWT(newHr, time_now);
-        return { token: jwtToken };
+        setAuthTokenCookie(res, jwtToken);
+        return newHr;
       } else {
         return null;
       }
@@ -44,7 +54,15 @@ const MutationResolvers = {
       return new Error("Error registering HR: " + error.message);
     }
   },
-  async loginHR(_parent, { input }, { Hr }) {
+
+  /**
+   *
+   * Login Hr
+   * @returns Hr
+   * @Role None
+   * @Permission None
+   */
+  async loginHR(_parent, { input }, { Hr, res }) {
     try {
       const { email, password } = input;
       const hr = await Hr.findOne({ email }).exec();
@@ -56,14 +74,25 @@ const MutationResolvers = {
         throw new Error("Invalid password!");
       } else {
         const time_now = new Date().toString();
+        // update last Login time
+        hr.lastLoginAt = time_now;
+        await hr.save();
         const jwtToken = createJWT(hr, time_now);
-        return { token: jwtToken };
+        setAuthTokenCookie(res, jwtToken);
+        return hr;
       }
     } catch (error) {
       return new Error("Error logging in HR: " + error.message);
     }
   },
 
+  /**
+   *
+   * Deletes Hr
+   * @returns Boolean
+   * @Role None
+   * @Permission None
+   */
   async removeHr(_parent, { id }, { Hr }) {
     try {
       const deletedHr = await Hr.findByIdAndRemove(id).exec();

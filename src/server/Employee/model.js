@@ -25,6 +25,7 @@ const schema = new mongoose.Schema(
       {
         date: {
           type: String,
+          unique: [true, "Applied leave date should be unique!"],
         },
         status: {
           type: String,
@@ -32,9 +33,9 @@ const schema = new mongoose.Schema(
         },
       },
     ],
-    role: {
-      type: String,
-      default: "EMPLOYEE",
+    roles: {
+      type: [String],
+      default: [EmployeeRole],
     },
     permissions: [{ type: String }],
   },
