@@ -4,10 +4,10 @@
 - [x] Setup DB
 - [x] Add resolvers
 - [x] add auth token to httpOnly cookie
-- [] setup authorization strategy
+- [-] setup authorization strategy
   - [x] Business logic level authorization
-  - [] (optional)Middleware level authorization
-  - [] Schema level authorization using custom directives
+  - [] (optional)Middleware level authorization -to complete later on
+  - [] (optional)Schema level authorization using custom directives -to complete later on
 - [] develop frontend UI's
 
   - [] SignUp/Login UI's for both HR, Employee

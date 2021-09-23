@@ -3,6 +3,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/components/*": ["components/*"],
+      "@/styledComponents/*": ["styledComponents/*"],
       "@/server/*": ["server/*"],
       "@/configs/*": ["configs/*"],
       "@/gqlClient/*": ["gqlClient/*"],
