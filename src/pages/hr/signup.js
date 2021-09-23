@@ -2,15 +2,12 @@ import Head from "next/head";
 
 import Container from "@/styledComponents/Container";
 import SignInForm from "@/components/SignInForm";
+import HrSignUpForm from "@/components/HrSignUpForm";
 
-export default function Home() {
-  async function signInHandler(data) {
-    console.log(data);
-  }
-
+export default function HrSignUp() {
   return (
     <Container>
-      <SignInForm heading="Employee Sign In" onFormSubmit={signInHandler} />
+      <HrSignUpForm />
     </Container>
   );
 }

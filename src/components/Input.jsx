@@ -1,4 +1,5 @@
 import { styled, css } from "@/styles/stitches.config";
+import { forwardRef } from "react";
 
 const InputDiv = styled("div", {
   my: "$2",
@@ -26,19 +27,20 @@ const Label = styled("label", {
   mb: "$1",
 });
 const ErrorMessage = styled("span", {
-  color: "$red100",
+  color: "$red200",
   fontSize: "$sm",
   mt: "$1",
+  mb: "$4",
 });
 
-function Input({ label, errorMessage, ...props }) {
+function Input(props, ref) {
   return (
     <InputDiv>
-      <Label>{label}</Label>
-      <StyledInput {...props} />
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      <Label>{props?.label}</Label>
+      <StyledInput ref={ref} {...props} />
+      {props?.error && <ErrorMessage>{props.error}</ErrorMessage>}
     </InputDiv>
   );
 }
 
-export default Input;
+export default forwardRef(Input);
