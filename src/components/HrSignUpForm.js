@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
 
-import { css } from "@/styles/stitches.config";
-import { REGISTER_HR } from "@/gqlClient/mutations";
 import {
   emailValidation,
   fullValidation,
   passwordValidation,
 } from "@/configs/formValidations";
+import { css } from "@/styles/stitches.config";
+import { REGISTER_HR } from "@/gqlClient/mutations";
 import Button from "@/styledComponents/Button";
 import Form from "@/styledComponents/Form";
 import Input from "./Input";

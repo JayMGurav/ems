@@ -1,10 +1,7 @@
 import { useState } from "react";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 
-import { REGISTER_EMPLOYEE } from "@/gqlClient/mutations";
-import { GET_ALL_EMPLOYEES } from "@/gqlClient/queries";
-import { css } from "@/styles/stitches.config";
 import {
   designationValidation,
   emailValidation,
@@ -12,11 +9,13 @@ import {
   passwordValidation,
   salaryValidation,
 } from "@/configs/formValidations";
+import { css } from "@/styles/stitches.config";
+import { REGISTER_EMPLOYEE } from "@/gqlClient/mutations";
+import { GET_ALL_EMPLOYEES } from "@/gqlClient/queries";
 import Button from "@/styledComponents/Button";
 import Form from "@/styledComponents/Form";
 import Input from "./Input";
 import ErrorMessage from "@/styledComponents/ErrorMessage";
-import { useMutation } from "@apollo/client";
 
 function EmployeeSignUpForm({ closeModal }) {
   const [errorMessage, setErrorMessage] = useState("");

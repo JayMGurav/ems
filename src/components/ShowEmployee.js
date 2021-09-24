@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+
 import { CHANGE_LEAVE_STATUS } from "@/gqlClient/mutations";
 import ErrorMessage from "@/styledComponents/ErrorMessage";
 import Select from "@/styledComponents/Select";
@@ -7,8 +10,6 @@ import { TD } from "@/styledComponents/TableComponents";
 import { TR } from "@/styledComponents/TableComponents";
 import { Table } from "@/styledComponents/TableComponents";
 import { styled } from "@/styles/stitches.config";
-import { useMutation } from "@apollo/client";
-import { useState } from "react";
 
 const EmployeeDetailsDiv = styled("div", {
   d: "flex",

@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { GET_ALL_EMPLOYEES } from "@/gqlClient/queries";
-import ErrorMessage from "@/styledComponents/ErrorMessage";
-import { styled } from "@/styles/stitches.config";
 import { useQuery } from "@apollo/client";
-import Loading from "./Loading";
 
+import { styled } from "@/styles/stitches.config";
+import { GET_ALL_EMPLOYEES } from "@/gqlClient/queries";
+import Loading from "./Loading";
+import ErrorMessage from "@/styledComponents/ErrorMessage";
 import Button from "@/styledComponents/Button";
 import Modal from "@/components/Modal";
 import ShowEmployee from "./ShowEmployee";

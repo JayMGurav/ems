@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
+import { emailValidation, passwordValidation } from "@/configs/formValidations";
 import Input from "./Input";
 import Button from "@/styledComponents/Button";
 import Form from "@/styledComponents/Form";
-import { emailValidation, passwordValidation } from "@/configs/formValidations";
 
 function SignInForm({ heading, onFormSubmit, notSignedInUrl, loading }) {
   const {

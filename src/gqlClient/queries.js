@@ -40,6 +40,7 @@ export const LOGOUT = gql`
     logout
   }
 `;
+
 export const GET_ALL_EMPLOYEES = gql`
   query GetAllEmployees {
     getAllEmployees {

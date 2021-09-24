@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import Image from "next/image";
 
-import { GET_EMPLOYEE_ME } from "@/gqlClient/queries";
-import Loading from "@/components/Loading";
+import formatDate from "@/utils/formatDate";
 import { styled, css } from "@/styles/stitches.config";
+import { GET_EMPLOYEE_ME } from "@/gqlClient/queries";
+import { APPLY_LEAVE } from "@/gqlClient/mutations";
+import Loading from "@/components/Loading";
 import Button from "@/styledComponents/Button";
 import StyledInput from "@/styledComponents/StyledInput";
-import formatDate from "@/utils/formatDate";
-import { APPLY_LEAVE } from "@/gqlClient/mutations";
 import IntroDiv from "@/styledComponents/IntroDiv";
 import ErrorMessage from "@/styledComponents/ErrorMessage";
 import useLogout from "@/hooks/useLogout";
