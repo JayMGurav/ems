@@ -10,14 +10,13 @@
   - [] (optional)Middleware level authorization -to complete later on
   - [] (optional)Schema level authorization using custom directives -to complete later on
 
-- [] develop frontend UI's
+- [x] develop frontend UI's
 
   - [x] SignUp/Login UI's for both HR, Employee
   - [x] Dashboards UI's for both HR, Employee
   - [x] Employee: apply for leave
   - [x] HR: View employee details,leaves and their statuses
-  - [] HR: Feature to add new Employee
-  - [] Modify caches on queries
+  - [x] HR: Feature to add new Employee
 
 - [] write documentation
 - [] Unit test functionalities

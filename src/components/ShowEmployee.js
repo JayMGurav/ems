@@ -66,30 +66,36 @@ function ShowEmployee({ employee }) {
         <span>Designation: {employee.designation}</span>
         {employee.phone && <span>Phone: {employee.phone}</span>}
         {employee.address && <span>Address: {employee.address}</span>}
-        {employee.salary && <span>Email: {employee.salary}</span>}
+        {employee.salary && <span>Salary: {employee.salary}</span>}
         <span>Total leaves: {employee.totalLeaves}</span>
         <span>Available Leaves: {employee.availableLeaves}</span>
         <span>Last Logged: {employee.lastLoginAt}</span>
       </EmployeeDetailsDiv>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <h2>Leaves applied:</h2>
-      <Table>
-        <THead>
-          <TR>
-            <TH scope="col">Date</TH>
-            <TH scope="col">Status</TH>
-            <TH scope="col">Reason</TH>
-          </TR>
-          {employee?.leaves?.map((leave) => (
-            <Leave
-              key={leave._id}
-              setErrorMessage={setErrorMessage}
-              employeeId={employee.id}
-              leave={leave}
-            />
-          ))}
-        </THead>
-      </Table>
+      {employee?.leaves.length > 0 ? (
+        <>
+          <h2>Leaves applied:</h2>
+          <Table>
+            <THead>
+              <TR>
+                <TH scope="col">Date</TH>
+                <TH scope="col">Status</TH>
+                <TH scope="col">Reason</TH>
+              </TR>
+              {employee?.leaves?.map((leave) => (
+                <Leave
+                  key={leave._id}
+                  setErrorMessage={setErrorMessage}
+                  employeeId={employee.id}
+                  leave={leave}
+                />
+              ))}
+            </THead>
+          </Table>
+        </>
+      ) : (
+        <h2>No leaves applied</h2>
+      )}
     </>
   );
 }

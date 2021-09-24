@@ -1,24 +1,58 @@
+import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
+import { REGISTER_EMPLOYEE } from "@/gqlClient/mutations";
+import { GET_ALL_EMPLOYEES } from "@/gqlClient/queries";
 import { css } from "@/styles/stitches.config";
 import {
+  designationValidation,
   emailValidation,
   fullValidation,
   passwordValidation,
+  salaryValidation,
 } from "@/configs/formValidations";
 import Button from "@/styledComponents/Button";
-import Container from "@/styledComponents/Container";
 import Form from "@/styledComponents/Form";
 import Input from "./Input";
+import ErrorMessage from "@/styledComponents/ErrorMessage";
+import { useMutation } from "@apollo/client";
 
-function HrSignUpForm() {
+function EmployeeSignUpForm({ closeModal }) {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [registerEmployee, { loading }] = useMutation(REGISTER_EMPLOYEE, {
+    refetchQueries: [GET_ALL_EMPLOYEES, "GetAllEmployees"],
+    onCompleted: (res) => {
+      if (res?.registerEmployee) {
+        reset();
+        setErrorMessage("");
+        closeModal();
+      }
+    },
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
+  });
+
+  async function registerNewEmployee(data) {
+    const salary = Number(data.salary);
+
+    await registerEmployee({
+      variables: {
+        input: {
+          ...data,
+          salary,
+        },
+      },
+    });
+  }
 
   const { ref: emailRef, ...restOfEmail } = register("email", emailValidation);
   const { ref: fullnameRef, ...restOfFullname } = register(
@@ -29,18 +63,25 @@ function HrSignUpForm() {
     "password",
     passwordValidation
   );
-
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
+  const { ref: designationRef, ...restOfDesignation } = register(
+    "designation",
+    designationValidation
+  );
+  const { ref: salaryRef, ...restOfSalary } = register(
+    "salary",
+    salaryValidation
+  );
+  const { ref: phoneRef, ...restOfPhone } = register("phone");
+  const { ref: addressRef, ...restOfAddress } = register("address");
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Hr Sign up</h2>
+    <Form onSubmit={handleSubmit(registerNewEmployee)}>
+      <h2>Add New Employee</h2>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Input
         label="Fullname"
         type="fullname"
-        placeholder="John Doe"
+        placeholder="Sherlock Homes"
         aria-invalid={errors?.fullname ? "true" : "false"}
         error={errors?.fullname?.message}
         ref={fullnameRef}
@@ -49,19 +90,57 @@ function HrSignUpForm() {
       <Input
         label="Email"
         type="email"
-        placeholder="johnDoe@abc.com"
+        placeholder="sherlocked@abc.com"
         aria-invalid={errors?.email ? "true" : "false"}
         error={errors?.email?.message}
         ref={emailRef}
         {...restOfEmail}
       />
+
       <Input
         label="Password"
         type="password"
+        placeholder="lock221"
         aria-invalid={errors?.password ? "true" : "false"}
         error={errors?.password?.message}
         ref={passwordRef}
         {...restOfPassword}
+      />
+      <Input
+        label="Designation"
+        type="text"
+        placeholder="Consultant detective"
+        aria-invalid={errors?.designation ? "true" : "false"}
+        error={errors?.designation?.message}
+        ref={designationRef}
+        {...restOfDesignation}
+      />
+      <Input
+        label="Phone"
+        type="text"
+        placeholder="123457892"
+        aria-invalid={errors?.phone ? "true" : "false"}
+        error={errors?.phone?.message}
+        ref={phoneRef}
+        {...restOfPhone}
+      />
+      <Input
+        label="Salary in LPA"
+        type="number"
+        placeholder="10"
+        aria-invalid={errors?.salary ? "true" : "false"}
+        error={errors?.salary?.message}
+        ref={salaryRef}
+        {...restOfSalary}
+      />
+      <Input
+        label="Address"
+        type="text"
+        placeholder="221B Baker Street, London"
+        aria-invalid={errors?.address ? "true" : "false"}
+        error={errors?.address?.message}
+        ref={addressRef}
+        {...restOfAddress}
       />
       <Button
         css={{
@@ -71,14 +150,10 @@ function HrSignUpForm() {
         size="sm"
         type="submit"
       >
-        Sign up
+        {loading ? "Loading..." : errorMessage ? "Error!" : "Add Employee"}
       </Button>
-      <br />
-      <Link href="/hr/signin" passHref>
-        <a>Registered? Please Sign in</a>
-      </Link>
     </Form>
   );
 }
 
-export default HrSignUpForm;
+export default EmployeeSignUpForm;

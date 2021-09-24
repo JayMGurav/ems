@@ -21,10 +21,7 @@ function Modal(props, ref) {
   useEffect(() => {
     const modalMountPoint = document.getElementById("modal-mount-point");
     setMountPoint(modalMountPoint);
-    return () => {
-      document.body.removeChild(modalMountPoint);
-      setMountPoint(null);
-    };
+    return () => void setMountPoint(null);
   }, []);
 
   const open = useCallback(() => {

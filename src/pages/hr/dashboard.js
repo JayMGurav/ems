@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import useLogout from "@/hooks/useLogout";
@@ -7,12 +6,9 @@ import Loading from "@/components/Loading";
 import ErrorMessage from "@/styledComponents/ErrorMessage";
 import IntroDiv from "@/styledComponents/IntroDiv";
 import Button from "@/styledComponents/Button";
-import Modal from "@/components/Modal";
 import EmployeeList from "@/components/EmployeeList";
 
 function HrDashboard() {
-  const modalRef = useRef();
-  const [errorMessage, setErrorMessage] = useState("");
   const { logout } = useLogout("/hr/signin");
   const { loading, data, error: getMeError } = useQuery(GET_EMPLOYEE_ME);
 
@@ -36,22 +32,7 @@ function HrDashboard() {
           Logout
         </Button>
       </IntroDiv>
-      {/* <Button
-        css={{
-          borderRadius: "$xl",
-          w: "200px",
-          h: "100px",
-        }}
-        filled="blue"
-        outlined
-        onClick={() => modalRef.current.open()}
-      >
-        Add New Employee
-      </Button> */}
       <EmployeeList />
-      {/* <Modal ref={modalRef}>
-        <h1>Add Employees</h1>
-      </Modal> */}
     </>
   );
 }

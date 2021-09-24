@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import Button from "@/styledComponents/Button";
 import Modal from "@/components/Modal";
 import ShowEmployee from "./ShowEmployee";
+import EmployeeSignUpForm from "./EmployeeSignUpForm";
 
 const EmployeeListDiv = styled("div", {
   d: "flex",
@@ -73,7 +74,9 @@ function EmployeeList() {
         ))}
       </EmployeeListDiv>
       <Modal ref={modalRef}>
-        {modalPurpose === purposes[0] && <h1>Add Employees</h1>}
+        {modalPurpose === purposes[0] && (
+          <EmployeeSignUpForm closeModal={() => modalRef.current.close()} />
+        )}
         {modalPurpose === purposes[1] && (
           <ShowEmployee employee={employees[empIndex]} />
         )}

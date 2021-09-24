@@ -26,7 +26,6 @@ export const ModalBody = styled("div", {
   position: "relative",
   p: "$4",
   maxHeight: "100%",
-  maxWidth: "100%",
   overflowY: "scroll",
   overflowX: "auto",
 });
@@ -35,7 +34,7 @@ export const ModalBodyContainer = styled("div", {
   position: "relative",
   maxHeight: "60vh",
   maxWidth: "60%",
-  w: "100%",
+  w: "fit-content",
   h: "100%",
   p: "$1",
   borderRadius: "$lg",

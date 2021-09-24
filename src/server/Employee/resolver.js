@@ -35,7 +35,7 @@ const MutationResolvers = {
    * @Role "HR"
    * @Permission "READ:EMPLOYEE"
    */
-  async registerEmployee(_parent, { input }, { Employee, authUser, res }) {
+  async registerEmployee(_parent, { input }, { Employee, authUser }) {
     try {
       if (!authUser) {
         throw new Error("Not logged in??, You need to login as Hr");
@@ -60,6 +60,7 @@ const MutationResolvers = {
       const passwordHash = await bcrypt.hash(password, salt);
 
       const time_now = new Date();
+      // salary: Number(salary),
       const newEmp = await Employee.create({
         ...userData,
         password: passwordHash,

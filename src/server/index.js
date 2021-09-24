@@ -26,12 +26,11 @@ const apolloServer = new ApolloServer({
     await connectMongoDB();
     const token = getAuthTokenCookie(req);
     let authUser = null;
-    // const authUser = { role: "HR", uid: "614b327898e90795c750c944" };
     if (token) {
       const { data, ...jwtDetails } = verifyToken(token);
       authUser = data;
     }
-    console.log({ authUser });
+
     return {
       req,
       res,

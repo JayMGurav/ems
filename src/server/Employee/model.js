@@ -25,7 +25,8 @@ const schema = new mongoose.Schema(
       {
         date: {
           type: String,
-          unique: [true, "Applied leave date should be unique!"],
+          // unique: [true, "Applied leave date should be unique!"],
+          required: [true, "Leave reason is required!"],
         },
         reason: {
           type: String,
@@ -43,8 +44,10 @@ const schema = new mongoose.Schema(
     },
     permissions: [{ type: String }],
   },
-  { timestamps: true }
+  { timestamps: true, autoIndex: false }
 );
+
+schema.index({ _id: 1 });
 
 schema.pre("save", function (next) {
   if (this.isNew) {

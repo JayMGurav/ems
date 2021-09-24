@@ -100,7 +100,7 @@ function HrSignUpForm() {
       >
         {loading ? "Loading..." : "Sign up"}
       </Button>
-      <br />
+      {/* <br /> */}
       <Link href="/hr/signin" passHref>
         <a>Registered? Please Sign in</a>
       </Link>

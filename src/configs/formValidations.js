@@ -1,6 +1,12 @@
 export const emailValidation = {
   required: { value: true, message: "Email is required" },
 };
+export const designationValidation = {
+  required: { value: true, message: "Designation is required" },
+};
+export const salaryValidation = {
+  required: { value: true, message: "Salary is required" },
+};
 
 export const fullValidation = {
   required: { value: true, message: "Fullname is required" },

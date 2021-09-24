@@ -24,6 +24,29 @@ export const LOGIN_EMPLOYEE = gql`
   }
 `;
 
+export const REGISTER_EMPLOYEE = gql`
+  mutation RegisterEmployee($input: createEmployeeInput!) {
+    registerEmployee(input: $input) {
+      id
+      fullname
+      email
+      designation
+      phone
+      address
+      avatar
+      salary
+      availableLeaves
+      totalLeaves
+      leaves {
+        _id
+        date
+        reason
+        status
+      }
+    }
+  }
+`;
+
 export const APPLY_LEAVE = gql`
   mutation ApplyLeave($id: ID!, $date: String!, $reason: String!) {
     applyLeave(id: $id, date: $date, reason: $reason) {
