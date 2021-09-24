@@ -9,7 +9,7 @@ import Button from "@/styledComponents/Button";
 import StyledInput from "@/styledComponents/StyledInput";
 import formatDate from "@/utils/formatDate";
 import { APPLY_LEAVE } from "@/gqlClient/mutations";
-import IntroDiv from "@/styledComponents/INtroDiv";
+import IntroDiv from "@/styledComponents/IntroDiv";
 import ErrorMessage from "@/styledComponents/ErrorMessage";
 import useLogout from "@/hooks/useLogout";
 
