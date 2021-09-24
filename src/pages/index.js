@@ -14,10 +14,10 @@ export default function Home() {
     <Div>
       <h1>EMS</h1>
       <Link href="/employee" passHref>
-        <Anchor color="blue">Employee Sign in</Anchor>
+        <Anchor color="blue">← Employee Sign in</Anchor>
       </Link>
-      <Link href="/hr/signin" passHref>
-        <Anchor color="blue">Hr Sign in</Anchor>
+      <Link href="/hr" passHref>
+        <Anchor color="blue">Hr portal →</Anchor>
       </Link>
     </Div>
   );

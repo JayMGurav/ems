@@ -1,22 +1,28 @@
-import Head from "next/head";
-import { useMutation } from "@apollo/client";
+import { useState } from "react";
 import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+
+import { LOGIN_HR } from "@/gqlClient/mutations";
 import Container from "@/styledComponents/Container";
 import SignInForm from "@/components/SignInForm";
-import { LOGIN_HR } from "@/gqlClient/mutations";
+import ErrorMessage from "@/styledComponents/ErrorMessage";
 
 export default function HrSignIn() {
   const router = useRouter();
-  const [loginHR, { data: hrData, loading, error }] = useMutation(LOGIN_HR, {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loginHr, { loading }] = useMutation(LOGIN_HR, {
     onCompleted: (res) => {
       if (res?.loginHR) {
         router.push("/hr/dashboard");
       }
     },
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
   });
 
   async function signInHandler(data) {
-    await loginHR({
+    await loginHr({
       variables: {
         input: {
           email: data.email,
@@ -28,11 +34,15 @@ export default function HrSignIn() {
 
   return (
     <Container>
-      <SignInForm
-        heading="HR Sign In"
-        onFormSubmit={signInHandler}
-        notSignedInUrl="/hr/signup"
-      />
+      <div>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <SignInForm
+          heading="HR Login"
+          onFormSubmit={signInHandler}
+          notSignedInUrl="/hr/signup"
+          loading={loading}
+        />
+      </div>
     </Container>
   );
 }

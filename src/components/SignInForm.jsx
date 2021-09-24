@@ -6,7 +6,7 @@ import Button from "@/styledComponents/Button";
 import Form from "@/styledComponents/Form";
 import { emailValidation, passwordValidation } from "@/configs/formValidations";
 
-function SignInForm({ heading, onFormSubmit, notSignedInUrl }) {
+function SignInForm({ heading, onFormSubmit, notSignedInUrl, loading }) {
   const {
     register,
     reset,
@@ -54,7 +54,7 @@ function SignInForm({ heading, onFormSubmit, notSignedInUrl }) {
         size="sm"
         type="submit"
       >
-        Sign In
+        {loading ? "Loading..." : "Sign In"}
       </Button>
       {notSignedInUrl && (
         <Link href={notSignedInUrl} passHref>

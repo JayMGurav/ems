@@ -1,7 +1,11 @@
-import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import Link from "next/link";
 
 import { css } from "@/styles/stitches.config";
+import { REGISTER_HR } from "@/gqlClient/mutations";
 import {
   emailValidation,
   fullValidation,
@@ -10,14 +14,41 @@ import {
 import Button from "@/styledComponents/Button";
 import Form from "@/styledComponents/Form";
 import Input from "./Input";
+import ErrorMessage from "@/styledComponents/ErrorMessage";
 
 function HrSignUpForm() {
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [registerHR, { loading }] = useMutation(REGISTER_HR, {
+    onCompleted: (res) => {
+      if (res?.registerHR) {
+        reset();
+        router.push("/hr/dashboard");
+      }
+    },
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
+  });
+
+  async function signUpHandler(data) {
+    await registerHR({
+      variables: {
+        input: {
+          fullname: data.fullname,
+          email: data.email,
+          password: data.password,
+        },
+      },
+    });
+  }
 
   const { ref: emailRef, ...restOfEmail } = register("email", emailValidation);
   const { ref: fullnameRef, ...restOfFullname } = register(
@@ -29,12 +60,9 @@ function HrSignUpForm() {
     passwordValidation
   );
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
-
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(signUpHandler)}>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <h2>Hr Sign up</h2>
       <Input
         label="Fullname"
@@ -70,7 +98,7 @@ function HrSignUpForm() {
         size="sm"
         type="submit"
       >
-        Sign up
+        {loading ? "Loading..." : "Sign up"}
       </Button>
       <br />
       <Link href="/hr/signin" passHref>

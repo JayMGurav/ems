@@ -6,18 +6,22 @@ import SignInForm from "@/components/SignInForm";
 import { LOGIN_EMPLOYEE } from "@/gqlClient/mutations";
 import { useRouter } from "next/router";
 
+import ErrorMessage from "@/styledComponents/ErrorMessage";
+import { useState } from "react";
+
 export default function Home() {
   const router = useRouter();
-  const [loginEmployee, { data: employeeData, loading, error }] = useMutation(
-    LOGIN_EMPLOYEE,
-    {
-      onCompleted: (res) => {
-        if (res?.loginEmployee) {
-          router.push("/employee/dashboard");
-        }
-      },
-    }
-  );
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loginEmployee, { loading }] = useMutation(LOGIN_EMPLOYEE, {
+    onCompleted: (res) => {
+      if (res?.loginEmployee) {
+        router.push("/employee/dashboard");
+      }
+    },
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
+  });
 
   async function signInHandler(data) {
     await loginEmployee({
@@ -32,7 +36,14 @@ export default function Home() {
 
   return (
     <Container>
-      <SignInForm heading="Employee Sign In" onFormSubmit={signInHandler} />
+      <div>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <SignInForm
+          heading="Employee Sign In"
+          onFormSubmit={signInHandler}
+          loading={loading}
+        />
+      </div>
     </Container>
   );
 }

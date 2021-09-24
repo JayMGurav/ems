@@ -1,21 +1,23 @@
-import Head from "next/head";
 import Link from "next/link";
-import Container from "@/styledComponents/Container";
 
-export default function HrSignIn() {
-  async function signInHandler(data) {
-    console.log(data);
-  }
+import { styled } from "@stitches/react";
+import Anchor from "@/styledComponents/Anchor";
 
+const Div = styled("div", {
+  textAlign: "center",
+  my: "$10",
+});
+
+export default function Hr() {
   return (
-    <Container>
-      <h1>Hr Board</h1>
+    <Div>
+      <h1>Hr Portal</h1>
       <Link href="/hr/signin" passHref>
-        <a>Sign in</a>
+        <Anchor color="blue">← Login</Anchor>
       </Link>
       <Link href="/hr/signup" passHref>
-        <a>Sign up</a>
+        <Anchor color="blue">Register →</Anchor>
       </Link>
-    </Container>
+    </Div>
   );
 }

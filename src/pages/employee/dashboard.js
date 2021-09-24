@@ -67,11 +67,7 @@ function EmployeeDashboard() {
     reason: "",
   });
   const { logout } = useLogout("/employee");
-  const { loading, data, error } = useQuery(GET_EMPLOYEE_ME, {
-    onError: (error) => {
-      setErrorMessage(error.message);
-    },
-  });
+  const { loading, data, error: getMeError } = useQuery(GET_EMPLOYEE_ME);
 
   const [applyLeave, { loading: leaveLoading }] = useMutation(APPLY_LEAVE, {
     onCompleted: () => {
@@ -133,7 +129,7 @@ function EmployeeDashboard() {
   // return for pending states
 
   if (loading) return <Loading />;
-  if (error) return <ErrorMessage>{error.message}</ErrorMessage>;
+  if (getMeError) return <ErrorMessage>{getMeError.message}</ErrorMessage>;
   const me = data?.me;
 
   return (

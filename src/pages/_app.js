@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
       <ApolloProvider client={apolloClient}>
         <Layout>
           <Component {...pageProps} />
+          <div id="modal-mount-point" />
         </Layout>
       </ApolloProvider>
     </>

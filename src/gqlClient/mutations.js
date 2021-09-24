@@ -11,11 +11,24 @@ export const LOGIN_EMPLOYEE = gql`
       address
       avatar
       salary
-      roles
-      permissions
       availableLeaves
       totalLeaves
       lastLoginAt
+      leaves {
+        _id
+        date
+        status
+        reason
+      }
+    }
+  }
+`;
+
+export const APPLY_LEAVE = gql`
+  mutation ApplyLeave($id: ID!, $date: String!, $reason: String!) {
+    applyLeave(id: $id, date: $date, reason: $reason) {
+      id
+      availableLeaves
       leaves {
         _id
         date
@@ -33,22 +46,17 @@ export const LOGIN_HR = gql`
       fullname
       email
       lastLoginAt
-      roles
-      permissions
     }
   }
 `;
-export const APPLY_LEAVE = gql`
-  mutation ApplyLeave($id: ID!, $date: String!, $reason: String!) {
-    applyLeave(id: $id, date: $date, reason: $reason) {
+
+export const REGISTER_HR = gql`
+  mutation RegisterHR($input: createHrInput!) {
+    registerHR(input: $input) {
       id
-      availableLeaves
-      leaves {
-        _id
-        date
-        status
-        reason
-      }
+      fullname
+      email
+      lastLoginAt
     }
   }
 `;
