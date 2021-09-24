@@ -4,7 +4,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 const link = new HttpLink({
-  uri: `http://${process.env.SITE_URL}/api/graphql`,
+  uri: `https://jay-ems.vercel.app/api/graphql`,
 });
 
 let apolloClient;
