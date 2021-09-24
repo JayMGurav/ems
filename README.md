@@ -1,4 +1,8 @@
-<!-- TODO Next-->
+# Role Based Authorization
+
+This project is an example of role based authorization with each role having specific permission to access,read,write and delete data. This information of role and permission is available to the request context by a JWT token set as an httpOnly cookie during authentication. with this the cookie is not accessible to client side javascript, Read more below about the token, role, permission specifics.
+
+## TODO
 
 - [x] GraphQL Schema for Employees and Hr
 - [x] Setup DB
@@ -58,3 +62,43 @@ password: respective password
 ```
 
 Once the user is logged in with appropriate credentials the generated **jwt token** is then set as **httpOnly** cookie to the response header so that all subsequent request from that particular client has this cookie token in its headers
+
+## Authorization Roles
+
+### HR
+
+Represents the role of the "Hr", available responsibilities are
+
+```
+<!-- Hr permissions -->
+[
+    "READ:ME",
+    "UPDATE:ME",
+    "CREATE:EMPLOYEE",
+    "READ:EMPLOYEE",
+    "UPDATE:EMPLOYEE",
+    "DELETE:EMPLOYEE",
+]
+```
+
+Hr can read, update their personal data and they can also create, read, update, delete employees
+
+### EMPLOYEE
+
+Represents the role of the "Employee", available responsibilities are
+
+```
+<!-- Employee permissions -->
+["READ:ME", "UPDATE:ME"]
+```
+
+Employees can read their data and update it.
+
+## Features to add for future
+
+- Employee delete, update (UI)
+- Hr delete, update (UI)
+- Feature to add Avatar images (UI)
+- Optimal Cache control
+- Create Schema, middleware level role specific per field/type authorizations
+- Optimal Error handling Strategy
