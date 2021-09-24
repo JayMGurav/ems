@@ -22,7 +22,7 @@ const QueryResolvers = {
         } else throw new Error("No appropriate permission for your role");
       } else throw new Error("Not authorized!");
     } catch (error) {
-      return new Error(error.message);
+      throw new Error(error.message);
     }
   },
 };
@@ -67,7 +67,7 @@ const MutationResolvers = {
       });
       return newEmp;
     } catch (error) {
-      return new Error("registering Employee error: " + error.message);
+      throw new Error("registering Employee error: " + error.message);
     }
   },
 
@@ -91,7 +91,7 @@ const MutationResolvers = {
         return employee;
       }
     } catch (error) {
-      return new Error("Error logging in Employee: " + error.message);
+      throw new Error("Error logging in Employee: " + error.message);
     }
   },
 
@@ -166,7 +166,37 @@ const MutationResolvers = {
       const deletedEmp = await Employee.findByIdAndRemove(id).exec();
       return Boolean(deletedEmp);
     } catch (error) {
-      return new Error("Error deleting Employee: " + error.message);
+      throw new Error("Error deleting Employee: " + error.message);
+    }
+  },
+
+  async changeLeaveStatus(
+    _parent,
+    { id, date, leaveId, status },
+    { Employee, authUser }
+  ) {
+    try {
+      if (!authUser) {
+        throw new Error("Not logged in??, You need to login as Hr");
+      }
+      if (!authUser.roles.includes(HrRole)) {
+        throw new Error("Not authorized!");
+      }
+      if (!authUser.permissions.includes("UPDATE:EMPLOYEE")) {
+        throw new Error("No appropriate permission for your role");
+      }
+
+      return await Employee.findOneAndUpdate(
+        { id, "leaves._id": leaveId, "leaves.date": date },
+        {
+          $set: {
+            "leaves.$.status": status,
+          },
+        },
+        { new: true }
+      );
+    } catch (error) {
+      throw new Error("Error changing leave status: " + error.message);
     }
   },
 };

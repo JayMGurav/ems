@@ -19,22 +19,33 @@ export const ModalOverlay = styled("div", {
   right: 0,
   bottom: 0,
   bg: "rgba(13, 13, 13, 0.25)",
-  boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
   backdropFilter: "blur(12px)",
-  maxHeight: "60vh",
-  maxWidth: "60%",
-  overflow: "auto",
 });
 
 export const ModalBody = styled("div", {
   position: "relative",
+  p: "$4",
+  maxHeight: "100%",
+  maxWidth: "100%",
+  overflowY: "scroll",
+  overflowX: "auto",
+});
+
+export const ModalBodyContainer = styled("div", {
+  position: "relative",
+  maxHeight: "60vh",
+  maxWidth: "60%",
+  w: "100%",
+  h: "100%",
+  p: "$1",
   borderRadius: "$lg",
   bg: "$fg1",
-  p: "$4",
+  boxShadow: "0 8px 32px 0 rgba( 0, 0, 0, 0.37 )",
 });
 
 export const ModalCloseBtn = styled("button", {
   position: "absolute",
+  zIndex: 999999,
   top: "-$10",
   right: "-$2",
   w: "$7",

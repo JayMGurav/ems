@@ -39,6 +39,12 @@ const employeeTypeDef = gql`
     removeEmployee(id: ID!): Boolean!
     loginEmployee(input: loginInput!): Employee
     applyLeave(date: String!, id: ID!, reason: String!): Employee
+    changeLeaveStatus(
+      id: ID!
+      date: String!
+      leaveId: ID!
+      status: LeaveStatus!
+    ): Employee
   }
 `;
 

@@ -60,3 +60,26 @@ export const REGISTER_HR = gql`
     }
   }
 `;
+
+export const CHANGE_LEAVE_STATUS = gql`
+  mutation ChangeLeaveStatus(
+    $id: ID!
+    $date: String!
+    $leaveId: ID!
+    $status: LeaveStatus!
+  ) {
+    changeLeaveStatus(
+      id: $id
+      date: $date
+      leaveId: $leaveId
+      status: $status
+    ) {
+      id
+      leaves {
+        _id
+        date
+        status
+      }
+    }
+  }
+`;

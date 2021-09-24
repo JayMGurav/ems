@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   ModalBody,
   ModalCloseBtn,
+  ModalBodyContainer,
 } from "./Modal.style";
 
 function Modal(props, ref) {
@@ -48,7 +49,7 @@ function Modal(props, ref) {
         isOpen ? (
           <ModalContainer>
             <ModalOverlay onClick={close} />
-            <ModalBody>
+            <ModalBodyContainer>
               <ModalCloseBtn onClick={close}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -64,8 +65,8 @@ function Modal(props, ref) {
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </ModalCloseBtn>
-              {props.children}
-            </ModalBody>
+              <ModalBody>{props.children}</ModalBody>
+            </ModalBodyContainer>
           </ModalContainer>
         ) : null,
         mountPoint

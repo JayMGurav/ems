@@ -5,13 +5,19 @@
 - [x] Add resolvers
 - [x] add auth token to httpOnly cookie
 - [-] setup authorization strategy
+
   - [x] Business logic level authorization
   - [] (optional)Middleware level authorization -to complete later on
   - [] (optional)Schema level authorization using custom directives -to complete later on
+
 - [] develop frontend UI's
 
-  - [] SignUp/Login UI's for both HR, Employee
-  - [] Dashboards UI's for both HR, Employee
+  - [x] SignUp/Login UI's for both HR, Employee
+  - [x] Dashboards UI's for both HR, Employee
+  - [x] Employee: apply for leave
+  - [x] HR: View employee details,leaves and their statuses
+  - [] HR: Feature to add new Employee
+  - [] Modify caches on queries
 
 - [] write documentation
 - [] Unit test functionalities

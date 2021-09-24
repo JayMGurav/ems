@@ -32,7 +32,7 @@ const globalStyles = globalCss({
 
   "::-webkit-scrollbar-thumb": {
     minHeight: "60px",
-    bg: "$fg2",
+    bg: "$blue50",
     backgroundClip: "padding-box",
     border: "10px solid transparent",
     borderRadius: "15px",
