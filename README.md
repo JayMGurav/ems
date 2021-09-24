@@ -94,7 +94,39 @@ Represents the role of the "Employee", available responsibilities are
 
 Employees can read their data and update it.
 
-## Features to add for future
+---
+
+## Site map
+
+- HR Login: `https://jay-ems.vercel.app/hr/signin`
+- HR Sign Up: `https://jay-ems.vercel.app/hr/signup`
+- HR dashboard: `https://jay-ems.vercel.app/hr/dashboard`
+- HR portal(Links to signin/signup) : `https://jay-ems.vercel.app/hr`
+- Employee login: `https://jay-ems.vercel.app/employee`
+
+- Employee dashboard: `https://jay-ems.vercel.app/employee/dashboard`
+
+> Employee can only be created by Hr so they don't have sign-up option
+
+## Default credentials
+
+### Hr
+
+```
+email: jayhr@gmail.com
+password: Jay27
+```
+
+### Employee
+
+```
+email: jay@gmail.com
+password: Jay27
+```
+
+---
+
+## Some small features to consider for future
 
 - Employee delete, update (UI)
 - Hr delete, update (UI)
