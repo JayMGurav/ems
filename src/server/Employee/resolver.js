@@ -103,7 +103,7 @@ const MutationResolvers = {
    * @Role "Employee"
    * @Permission "UPDATE:ME"
    */
-  async applyLeave(_parent, { date, id }, { Employee, authUser }) {
+  async applyLeave(_parent, { id, date, reason }, { Employee, authUser }) {
     try {
       if (!authUser) {
         throw new Error(
@@ -116,24 +116,32 @@ const MutationResolvers = {
       if (!authUser.permissions.includes("UPDATE:ME")) {
         throw new Error("No appropriate permission for your role");
       }
-      const updatedLeave = await Employee.findByIdAndUpdate(
-        id,
-        {
-          $push: { leaves: { date } },
-          $inc: { availableLeaves: -1 },
-        },
-        { new: true }
-      );
-      if (updatedLeave) {
-        return {
-          date,
-          status: "PENDING",
-        };
+
+      const employee = await Employee.findById(id).exec();
+      if (employee) {
+        if (employee.leaves.length >= employee.totalLeaves) {
+          throw new Error("No more leaves available");
+        }
+        const present = employee.leaves.filter(
+          ({ date: leaveDate }) => date === leaveDate
+        );
+        if (present.length) {
+          throw new Error("Leave already applied!");
+        }
+        const updatedLeave = await Employee.findByIdAndUpdate(
+          id,
+          {
+            $push: { leaves: { date, reason } },
+            $inc: { availableLeaves: -1 },
+          },
+          { new: true }
+        );
+        return updatedLeave;
       } else {
-        return null;
+        throw new Error("Employee Not Found!");
       }
     } catch (error) {
-      return new Error("Error applying leave: " + error.message);
+      throw new Error("Error applying leave: " + error.message);
     }
   },
 
@@ -144,7 +152,7 @@ const MutationResolvers = {
    * @Role "HR"
    * @Permission "DELETE:EMPLOYEE"
    */
-  async removeEmployee(_parent, { id }, { Employee }) {
+  async removeEmployee(_parent, { id }, { Employee, authUser }) {
     try {
       if (!authUser) {
         throw new Error("Not logged in??, please login!");

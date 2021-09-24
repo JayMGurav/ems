@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.13",
     "@graphql-tools/merge": "^8.1.2",
     "@graphql-tools/schema": "^8.2.0",
     "@stitches/react": "^1.2.0",

@@ -14,13 +14,15 @@ const initialTypeDef = gql`
   union MeResult = Employee | Hr
 
   type Leave {
+    _id: ID!
     date: String!
+    reason: String!
     status: LeaveStatus!
   }
 
-  type loginOutputType {
-    token: String
-  }
+  # type loginOutputType {
+  #   token: String
+  # }
 
   input loginInput {
     email: String!

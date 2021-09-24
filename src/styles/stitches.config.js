@@ -215,6 +215,9 @@ export const {
     d: (value) => ({
       display: value,
     }),
+    bg: (value) => ({
+      background: value,
+    }),
     w: (value) => ({
       width: value,
     }),

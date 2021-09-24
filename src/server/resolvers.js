@@ -59,7 +59,7 @@ const initialResolvers = {
     async logout(_parent, _args, { res }, _info) {
       try {
         removeAuthTokenCookie(res);
-        res.setHeader("Clear-Site-Data", "*");
+        res.setHeader("Clear-Site-Data", '"cache","cookies", "storage"');
         return true;
       } catch (error) {
         return new Error("Error logging out: " + error.message);

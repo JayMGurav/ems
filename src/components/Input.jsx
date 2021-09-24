@@ -1,4 +1,4 @@
-import { styled, css } from "@/styles/stitches.config";
+import { styled } from "@/styles/stitches.config";
 import { forwardRef } from "react";
 
 const InputDiv = styled("div", {

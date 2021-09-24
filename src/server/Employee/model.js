@@ -27,6 +27,10 @@ const schema = new mongoose.Schema(
           type: String,
           unique: [true, "Applied leave date should be unique!"],
         },
+        reason: {
+          type: String,
+          required: [true, "Leave reason is required!"],
+        },
         status: {
           type: String,
           default: "PENDING",

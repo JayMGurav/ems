@@ -1,16 +1,24 @@
 import Head from "next/head";
+import Link from "next/link";
 
-import Container from "@/styledComponents/Container";
-import SignInForm from "@/components/SignInForm";
+import Anchor from "@/styledComponents/Anchor";
+import { styled } from "@stitches/react";
+
+const Div = styled("div", {
+  textAlign: "center",
+  my: "$10",
+});
 
 export default function Home() {
-  async function signInHandler(data) {
-    console.log(data);
-  }
-
   return (
-    <Container>
-      <SignInForm heading="Employee Sign In" onFormSubmit={signInHandler} />
-    </Container>
+    <Div>
+      <h1>EMS</h1>
+      <Link href="/employee" passHref>
+        <Anchor color="blue">Employee Sign in</Anchor>
+      </Link>
+      <Link href="/hr/signin" passHref>
+        <Anchor color="blue">Hr Sign in</Anchor>
+      </Link>
+    </Div>
   );
 }

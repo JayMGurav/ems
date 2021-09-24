@@ -15,8 +15,8 @@ const globalStyles = globalCss({
     textDecoration: "none",
   },
   "*+*": {
-    margin: 0,
-    padding: 0,
+    // m: 0,
+    // p: 0,
     boxSizing: "border-box",
   },
 });
