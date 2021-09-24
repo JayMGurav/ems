@@ -4,8 +4,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 const link = new HttpLink({
-  uri: `http://localhost:3000/api/graphql`,
-  // uri: "https://btt.kayadev.com:3000/graphql",
+  uri: `http://${SITE_URL}/api/graphql`,
 });
 
 let apolloClient;
