@@ -134,4 +134,4 @@ password: Jay27
 - Optimal Cache control
 - Create Schema, middleware level role specific per field/type authorizations
 - Optimal Error handling Strategy
-- Diffrentiate optimal UI rendering SSRs, SSGs
+- Differentiate UI rendering SSRs, SSGs

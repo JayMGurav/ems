@@ -58,6 +58,7 @@ function Leave({ leave, employeeId, setErrorMessage }) {
 }
 
 function ShowEmployee({ employee }) {
+  console.log({ employee });
   const [errorMessage, setErrorMessage] = useState("");
   return (
     <>

@@ -11,7 +11,7 @@ export function verifyToken(token) {
   } else return undefined;
 }
 
-export function createJWT(user, time_now) {
+export function createJWT(user) {
   const payload = {
     data: {
       roles: user.roles,
@@ -21,7 +21,7 @@ export function createJWT(user, time_now) {
     },
     sub: user.id,
     aud: user.id,
-    iat: Number(new Date(time_now)),
+    iat: Number(new Date()),
   };
   return jwt.sign(payload, process.env.ENCRYPTION_SECRET, { expiresIn: "8h" });
 }

@@ -54,6 +54,7 @@ export const GET_ALL_EMPLOYEES = gql`
       salary
       availableLeaves
       totalLeaves
+      lastLoginAt
       leaves {
         _id
         date

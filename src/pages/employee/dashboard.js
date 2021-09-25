@@ -119,7 +119,7 @@ function EmployeeDashboard() {
     e.preventDefault();
     await applyLeave({
       variables: {
-        id: data?.me?.id,
+        // id: data?.me?.id,
         date: leave.date,
         reason: leave.reason,
       },

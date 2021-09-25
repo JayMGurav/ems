@@ -48,7 +48,7 @@ export const REGISTER_EMPLOYEE = gql`
 `;
 
 export const APPLY_LEAVE = gql`
-  mutation ApplyLeave($id: ID!, $date: String!, $reason: String!) {
+  mutation ApplyLeave($date: String!, $reason: String!) {
     applyLeave(id: $id, date: $date, reason: $reason) {
       id
       availableLeaves

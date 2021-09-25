@@ -1,7 +1,17 @@
 import { EmployeeRole, HrRole } from "@/configs/roleConfigs";
 import { setAuthTokenCookie } from "@/utils/authCookies";
+import { checkPasswordValidity } from "@/utils/bcryptUtils";
 import { createJWT } from "@/utils/jwt";
-import bcrypt from "bcryptjs";
+import {
+  applyEmployeeLeave,
+  createNewEmployee,
+  findAllEmployees,
+  findEmployeeByEmail,
+  findEmployeeById,
+  findLeaveAndUpdateStatus,
+  isEmployee,
+  removeEmployeeById,
+} from "./controller";
 
 const QueryResolvers = {
   /**
@@ -18,7 +28,7 @@ const QueryResolvers = {
       }
       if (authUser.roles.includes(HrRole)) {
         if (authUser.permissions.includes("READ:EMPLOYEE")) {
-          return await Employee.find({}).exec();
+          return await findAllEmployees(Employee);
         } else throw new Error("No appropriate permission for your role");
       } else throw new Error("Not authorized!");
     } catch (error) {
@@ -47,25 +57,13 @@ const MutationResolvers = {
         throw new Error("No appropriate permission for your role");
       }
 
-      const existingEmp = await Employee.findOne({
-        email: input.email,
-      }).exec();
+      const existingEmp = await isEmployee(input.email, Employee);
 
-      if (Boolean(existingEmp)) {
+      if (existingEmp) {
         return new Error(`Employee with ${input.email} already exist!!`);
       }
-
-      const { password, ...userData } = input;
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(password, salt);
-
-      const time_now = new Date();
-      // salary: Number(salary),
-      const newEmp = await Employee.create({
-        ...userData,
-        password: passwordHash,
-        lastLoginAt: time_now,
-      });
+      // safe to spread input as its restricted by schema
+      const newEmp = await createNewEmployee({ ...input }, Employee);
       return newEmp;
     } catch (error) {
       throw new Error("registering Employee error: " + error.message);
@@ -76,18 +74,20 @@ const MutationResolvers = {
   async loginEmployee(_parent, { input }, { Employee, res }) {
     try {
       const { email, password } = input;
-      const employee = await Employee.findOne({ email }).exec();
+      const employee = await findEmployeeByEmail(email, Employee);
+
       if (!employee) {
         return new Error("No such employee found");
       }
-      const valid = await bcrypt.compare(password, employee.password);
-      if (!valid) {
-        throw new Error("Invalid password!");
-      } else {
+      const validPassword = await checkPasswordValidity(
+        password,
+        employee.password
+      );
+      if (validPassword) {
         const time_now = new Date().toString();
         employee.lastLoginAt = time_now;
         await employee.save();
-        const jwtToken = createJWT(employee, time_now);
+        const jwtToken = createJWT(employee);
         setAuthTokenCookie(res, jwtToken);
         return employee;
       }
@@ -104,7 +104,7 @@ const MutationResolvers = {
    * @Role "Employee"
    * @Permission "UPDATE:ME"
    */
-  async applyLeave(_parent, { id, date, reason }, { Employee, authUser }) {
+  async applyLeave(_parent, { date, reason }, { Employee, authUser }) {
     try {
       if (!authUser) {
         throw new Error(
@@ -118,7 +118,8 @@ const MutationResolvers = {
         throw new Error("No appropriate permission for your role");
       }
 
-      const employee = await Employee.findById(id).exec();
+      const employee = await findEmployeeById(authUser.uid, Employee);
+
       if (employee) {
         if (employee.leaves.length >= employee.totalLeaves) {
           throw new Error("No more leaves available");
@@ -129,15 +130,7 @@ const MutationResolvers = {
         if (present.length) {
           throw new Error("Leave already applied!");
         }
-        const updatedLeave = await Employee.findByIdAndUpdate(
-          id,
-          {
-            $push: { leaves: { date, reason } },
-            $inc: { availableLeaves: -1 },
-          },
-          { new: true }
-        );
-        return updatedLeave;
+        return await applyEmployeeLeave(authUser.uid, date, reason, Employee);
       } else {
         throw new Error("Employee Not Found!");
       }
@@ -164,7 +157,7 @@ const MutationResolvers = {
       if (!authUser.permissions.includes("DELETE:EMPLOYEE")) {
         throw new Error("No appropriate permission for your role!");
       }
-      const deletedEmp = await Employee.findByIdAndRemove(id).exec();
+      const deletedEmp = await removeEmployeeById(id, Employee);
       return Boolean(deletedEmp);
     } catch (error) {
       throw new Error("Error deleting Employee: " + error.message);
@@ -173,7 +166,7 @@ const MutationResolvers = {
 
   async changeLeaveStatus(
     _parent,
-    { id, date, leaveId, status },
+    { id, date: leaveDate, leaveId, status },
     { Employee, authUser }
   ) {
     try {
@@ -187,14 +180,14 @@ const MutationResolvers = {
         throw new Error("No appropriate permission for your role");
       }
 
-      return await Employee.findOneAndUpdate(
-        { id, "leaves._id": leaveId, "leaves.date": date },
+      return await findLeaveAndUpdateStatus(
         {
-          $set: {
-            "leaves.$.status": status,
-          },
+          employeeId: id,
+          leaveId,
+          leaveDate,
+          status,
         },
-        { new: true }
+        Employee
       );
     } catch (error) {
       throw new Error("Error changing leave status: " + error.message);

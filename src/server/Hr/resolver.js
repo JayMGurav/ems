@@ -1,6 +1,12 @@
 import { setAuthTokenCookie } from "@/utils/authCookies";
 import { createJWT } from "@/utils/jwt";
-import bcrypt from "bcryptjs";
+import {
+  createNewHr,
+  findAllHrs,
+  findHrByEmail,
+  removeHrById,
+} from "./controllers";
+import { checkPasswordValidity } from "@/utils/bcryptUtils";
 
 const QueryResolvers = {
   /**
@@ -11,7 +17,7 @@ const QueryResolvers = {
    * @Permission None
    */
   async getAllHrs(_parent, _args, { Hr }) {
-    return await Hr.find({}).exec();
+    return await findAllHrs(Hr);
   },
 };
 
@@ -32,19 +38,11 @@ const MutationResolvers = {
       if (Boolean(existingHr)) {
         return new Error(`Hr with ${input.email} already exist!, Please login`);
       }
+      // since input is type restricted by schema its safe to spread it here,
+      const newHr = await createNewHr({ ...input }, Hr);
 
-      const { password, ...userData } = input;
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(password, salt);
-
-      const time_now = new Date();
-      const newHr = await Hr.create({
-        ...userData,
-        password: passwordHash,
-        lastLoginAt: time_now,
-      });
       if (newHr) {
-        const jwtToken = createJWT(newHr, time_now);
+        const jwtToken = createJWT(newHr);
         setAuthTokenCookie(res, jwtToken);
         return newHr;
       } else {
@@ -65,19 +63,18 @@ const MutationResolvers = {
   async loginHR(_parent, { input }, { Hr, res }) {
     try {
       const { email, password } = input;
-      const hr = await Hr.findOne({ email }).exec();
+      const hr = await findHrByEmail(email, Hr);
       if (!hr) {
         return new Error("No such HR found, please register");
       }
-      const valid = await bcrypt.compare(password, hr.password);
-      if (!valid) {
-        throw new Error("Invalid password!");
-      } else {
+      const validPassword = await checkPasswordValidity(password, hr.password);
+      if (!validPassword) {
         const time_now = new Date().toString();
+
         // update last Login time
         hr.lastLoginAt = time_now;
         await hr.save();
-        const jwtToken = createJWT(hr, time_now);
+        const jwtToken = createJWT(hr);
         setAuthTokenCookie(res, jwtToken);
         return hr;
       }
@@ -95,7 +92,7 @@ const MutationResolvers = {
    */
   async removeHr(_parent, { id }, { Hr }) {
     try {
-      const deletedHr = await Hr.findByIdAndRemove(id).exec();
+      const deletedHr = await removeHrById(id, Hr);
       return Boolean(deletedHr);
     } catch (error) {
       return new Error("Error deleting HR: " + error.message);
