@@ -63,12 +63,15 @@ const MutationResolvers = {
   async loginHR(_parent, { input }, { Hr, res }) {
     try {
       const { email, password } = input;
+      console.log({ email, password });
       const hr = await findHrByEmail(email, Hr);
+      console.log({ hr });
       if (!hr) {
         return new Error("No such HR found, please register");
       }
       const validPassword = await checkPasswordValidity(password, hr.password);
-      if (!validPassword) {
+      console.log({ validPassword });
+      if (validPassword) {
         const time_now = new Date().toString();
 
         // update last Login time
